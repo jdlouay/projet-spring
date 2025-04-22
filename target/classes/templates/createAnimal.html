@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Ajouter un Animal</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div th:replace="template"></div>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Ajouter un Animal
+            </div>
+            <div class="card-body">
+                <form action="saveAnimal" method="post">
+                    <div class="form-group">
+                        <label class="control-label">Espèce :</label>
+                        <input type="text" name="especeAnimal" class="form-control" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Poids :</label>
+                        <input type="number" name="poidsAnimal" class="form-control" step="0.1" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Date de Naissance :</label>
+                        <input type="date" name="date" class="form-control" required/>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Ajouter</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer" th:if="${msg}">
+                <span class="text-success" th:text="${msg}"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

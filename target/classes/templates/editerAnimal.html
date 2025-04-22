@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="template">
+<head>
+    <meta charset="utf-8">
+    <title>Modifier un Animal</title>
+</head>
+<body>
+    <div th:replace="template"></div>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Modifier un Animal
+            </div>
+            <div class="card-body">
+                <form action="updateAnimal" method="post">
+                    <div class="form-group">
+                        <label class="control-label">ID Animal :</label>
+                        <input type="text" name="codeAnimal" class="form-control" th:value="${animal.codeAnimal}" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Espèce :</label>
+                        <input type="text" name="especeAnimal" class="form-control" th:value="${animal.especeAnimal}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Poids :</label>
+                        <input type="number" name="poidsAnimal" class="form-control" step="0.1" th:value="${animal.poidsAnimal}" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Date de Naissance :</label>
+                        <input type="date" name="date" class="form-control" 
+                               th:value="${#dates.format(animal.dateNaissance,'yyyy-MM-dd')}" />
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
