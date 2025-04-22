@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title th:if="${mode=='new'}">Ajout d'un Animal</title>
+    <title th:if="${mode=='edit'}">Modification d'un Animal</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+    />
+    <script th:src="@{/webjars/jquery/3.5.1/jquery.min.js}"></script>
+    <script
+      type="text/javascript"
+      th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"
+    ></script>
+  </head>
+  <body>
+    <div th:replace="template"></div>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header" th:if="${mode=='new'}">Ajout d'un Animal</div>
+        <div class="card-header" th:if="${mode=='edit'}">
+          Modification d'un Animal
+        </div>
+        <div class="card-body">
+          <form th:action="@{/saveAnimal}" method="post">
+            <div class="form-group">
+              <label class="control-label" hidden>ID Animal :</label>
+              <input
+                type="hidden"
+                name="codeAnimal"
+                class="form-control"
+                th:value="${animal.codeAnimal}"
+              />
+            </div>
+            <div class="form-group">
+              <label class="control-label">Nom :</label>
+              <input
+                type="text"
+                name="nomAnimal"
+                class="form-control"
+                th:value="${animal.nomAnimal}"
+              />
+              <span th:errors="${animal.nomAnimal}" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Poids :</label>
+              <input
+                type="number"
+                name="poidsAnimal"
+                class="form-control"
+                step="0.1"
+                th:value="${animal.poidsAnimal}"
+              />
+              <span
+                th:errors="${animal.poidsAnimal}"
+                class="text-danger"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Date de Naissance :</label>
+              <input
+                type="date"
+                name="dateNaissance"
+                class="form-control"
+                th:value="${#dates.format(animal.dateNaissance,'yyyy-MM-dd')}"
+              />
+              <span
+                th:errors="${animal.dateNaissance}"
+                class="text-danger"
+              ></span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Groupe :</label>
+              <select
+                name="groupe"
+                class="form-control"
+                th:value="${animal.groupe.codeGroupe}"
+                th:if="${!#strings.isEmpty(animal.groupe)}"
+              >
+                <option
+                  th:each="g : ${groupes}"
+                  th:value="${g.codeGroupe}"
+                  th:text="${g.nomGroupe}"
+                  th:selected="${g.codeGroupe == animal.groupe.codeGroupe}"
+                ></option>
+              </select>
+              <select
+                name="groupe"
+                class="form-control"
+                th:if="${#strings.isEmpty(animal.groupe)}"
+              >
+                <option
+                  th:each="g : ${groupes}"
+                  th:value="${g.codeGroupe}"
+                  th:text="${g.nomGroupe}"
+                ></option>
+              </select>
+            </div>
+            <div>
+              <button type="submit" class="btn btn-primary">Valider</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

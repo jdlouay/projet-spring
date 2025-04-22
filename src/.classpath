@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="repos/|controllers/|entities/|service/" kind="src" path="main/java/com/example/cours_etudiant"/>
+	<classpathentry kind="src" path="main/java/com/example/cours_etudiant/controllers"/>
+	<classpathentry kind="src" path="main/java/com/example/cours_etudiant/entities"/>
+	<classpathentry kind="src" path="main/java/com/example/cours_etudiant/repos"/>
+	<classpathentry kind="src" path="main/java/com/example/cours_etudiant/service"/>
+	<classpathentry excluding="service/|repos/|controllers/|entities/" kind="src" path="main/java/com/louay/animaux"/>
+	<classpathentry kind="src" path="main/java/com/louay/animaux/controllers"/>
+	<classpathentry kind="src" path="main/java/com/louay/animaux/entities"/>
+	<classpathentry kind="src" path="main/java/com/louay/animaux/repos"/>
+	<classpathentry kind="src" path="main/java/com/louay/animaux/service"/>
+	<classpathentry kind="src" path="test/java/com/example/cours_etudiant"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

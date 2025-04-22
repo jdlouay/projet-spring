@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+  <head>
+    <meta charset="utf-8" />
+    <title>Accès Refusé</title>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+  </head>
+  <body>
+    <div th:replace="template"></div>
+    <div class="container mt-5">
+      <div class="alert alert-danger">
+        <h3>Vous n'êtes pas autorisé à accéder à cette ressource</h3>
+      </div>
+    </div>
+  </body>
+</html>

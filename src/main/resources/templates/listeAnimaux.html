@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+  layout:decorator="template"
+>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+  />
+  <head>
+    <meta charset="utf-8" />
+    <title>Liste des Animaux</title>
+    <script src="webjars/jquery/3.5.1/jquery.min.js"></script>
+    <script
+      type="text/javascript"
+      src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"
+    ></script>
+  </head>
+  <body>
+    <div th:replace="template"></div>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header">Liste des Animaux</div>
+        <div class="card-body">
+          <table class="table table-striped">
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Poids</th>
+              <th>Date de Naissance</th>
+              <th>Groupe</th>
+              <th sec:authorize="hasAuthority('ADMIN')">Supprimer</th>
+              <th sec:authorize="hasAuthority('ADMIN')">Éditer</th>
+            </tr>
+            <tr th:each="a:${animaux.content}">
+              <td th:text="${a.codeAnimal}"></td>
+              <td th:text="${a.nomAnimal}"></td>
+              <td th:text="${a.poidsAnimal}"></td>
+              <td th:text="${#dates.format(a.dateNaissance,'dd/MM/yyyy')}"></td>
+              <td
+                th:if="${!#strings.isEmpty(a.groupe)}"
+                th:text="${a.groupe.nomGroupe}"
+              ></td>
+              <td th:if="${#strings.isEmpty(a.groupe)}">Pas de Groupe</td>
+              <td sec:authorize="hasAuthority('ADMIN')">
+                <a
+                  class="btn btn-danger"
+                  onclick="return confirm('Êtes-vous sûr ?')"
+                  th:href="@{supprimerAnimal(id=${a.codeAnimal},page=${currentPage},size=${size})}"
+                >
+                  Supprimer
+                </a>
+              </td>
+              <td sec:authorize="hasAuthority('ADMIN')">
+                <a
+                  class="btn btn-success"
+                  th:href="@{modifierAnimal(id=${a.codeAnimal},page=${currentPage},size=${size})}"
+                >
+                  Éditer
+                </a>
+              </td>
+            </tr>
+          </table>
+          <ul class="nav nav-pills">
+            <li th:each="page,status:${pages}">
+              <a
+                th:class="${status.index==currentPage?'btn btn-primary':'btn btn-outline-primary'}"
+                th:href="@{ListeAnimaux(page=${status.index},size=${size})}"
+                th:text="${status.index + 1}"
+              >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
