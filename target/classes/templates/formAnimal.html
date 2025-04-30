@@ -27,14 +27,25 @@
           Modification d'un Animal
         </div>
         <div class="card-body">
-          <form th:action="@{/saveAnimal}" method="post">
+          <div th:if="${error}" class="alert alert-danger" role="alert">
+            <span th:text="${error}"></span>
+          </div>
+          <div th:if="${success}" class="alert alert-success" role="alert">
+            <span th:text="${success}"></span>
+          </div>
+          <form
+            th:action="@{/saveAnimal}"
+            method="post"
+            th:object="${animal}"
+            id="animalForm"
+          >
             <div class="form-group">
               <label class="control-label" hidden>ID Animal :</label>
               <input
                 type="hidden"
                 name="codeAnimal"
                 class="form-control"
-                th:value="${animal.codeAnimal}"
+                th:field="*{codeAnimal}"
               />
             </div>
             <div class="form-group">
@@ -43,9 +54,25 @@
                 type="text"
                 name="nomAnimal"
                 class="form-control"
-                th:value="${animal.nomAnimal}"
+                th:field="*{nomAnimal}"
+                required
+                minlength="3"
+                maxlength="50"
               />
-              <span th:errors="${animal.nomAnimal}" class="text-danger"></span>
+              <span class="text-danger" th:errors="*{nomAnimal}"></span>
+            </div>
+            <div class="form-group">
+              <label class="control-label">Espèce :</label>
+              <input
+                type="text"
+                name="especeAnimal"
+                class="form-control"
+                th:field="*{especeAnimal}"
+                required
+                minlength="3"
+                maxlength="50"
+              />
+              <span class="text-danger" th:errors="*{especeAnimal}"></span>
             </div>
             <div class="form-group">
               <label class="control-label">Poids :</label>
@@ -53,13 +80,13 @@
                 type="number"
                 name="poidsAnimal"
                 class="form-control"
+                th:field="*{poidsAnimal}"
+                required
+                min="0"
+                max="10000"
                 step="0.1"
-                th:value="${animal.poidsAnimal}"
               />
-              <span
-                th:errors="${animal.poidsAnimal}"
-                class="text-danger"
-              ></span>
+              <span class="text-danger" th:errors="*{poidsAnimal}"></span>
             </div>
             <div class="form-group">
               <label class="control-label">Date de Naissance :</label>
@@ -67,39 +94,27 @@
                 type="date"
                 name="dateNaissance"
                 class="form-control"
-                th:value="${#dates.format(animal.dateNaissance,'yyyy-MM-dd')}"
+                th:field="*{dateNaissance}"
+                required
               />
-              <span
-                th:errors="${animal.dateNaissance}"
-                class="text-danger"
-              ></span>
+              <span class="text-danger" th:errors="*{dateNaissance}"></span>
             </div>
             <div class="form-group">
               <label class="control-label">Groupe :</label>
               <select
                 name="groupe"
                 class="form-control"
-                th:value="${animal.groupe.codeGroupe}"
-                th:if="${!#strings.isEmpty(animal.groupe)}"
+                th:field="*{groupe}"
+                required
               >
-                <option
-                  th:each="g : ${groupes}"
-                  th:value="${g.codeGroupe}"
-                  th:text="${g.nomGroupe}"
-                  th:selected="${g.codeGroupe == animal.groupe.codeGroupe}"
-                ></option>
-              </select>
-              <select
-                name="groupe"
-                class="form-control"
-                th:if="${#strings.isEmpty(animal.groupe)}"
-              >
+                <option value="">Sélectionnez un groupe</option>
                 <option
                   th:each="g : ${groupes}"
                   th:value="${g.codeGroupe}"
                   th:text="${g.nomGroupe}"
                 ></option>
               </select>
+              <span class="text-danger" th:errors="*{groupe}"></span>
             </div>
             <div>
               <button type="submit" class="btn btn-primary">Valider</button>
@@ -108,5 +123,19 @@
         </div>
       </div>
     </div>
+
+    <script>
+      // Attendre que le document soit chargé
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("animalForm");
+
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            // Validation du formulaire ici si nécessaire
+            console.log("Formulaire soumis");
+          });
+        }
+      });
+    </script>
   </body>
 </html>

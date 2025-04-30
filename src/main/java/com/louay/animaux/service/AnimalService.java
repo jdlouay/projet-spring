@@ -4,14 +4,15 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import com.louay.animaux.entities.Animal;
 import com.louay.animaux.entities.Groupe;
+import com.louay.animaux.dto.AnimalDTO;
 
 public interface AnimalService {
-    Animal saveAnimal(Animal a);
-    Animal updateAnimal(Animal a);
+    AnimalDTO saveAnimal(Animal a);
+    AnimalDTO updateAnimal(Animal a);
     void deleteAnimal(Animal a);
     void deleteAnimalById(Long id);
-    Animal getAnimal(Long id);
-    List<Animal> getAllAnimaux();
+    AnimalDTO getAnimal(Long id);
+    List<AnimalDTO> getAllAnimaux();
     Page<Animal> getAllAnimauxParPage(int page, int size);
     
     List<Animal> findByEspeceAnimal(String espece);
@@ -21,4 +22,8 @@ public interface AnimalService {
     List<Animal> findByGroupeCodeGroupe(Long id);
     List<Animal> findByOrderByEspeceAnimalAsc();
     List<Animal> trierAnimauxEspecePoids();
+
+    // Méthodes de conversion
+    AnimalDTO convertEntityToDto(Animal animal);
+    Animal convertDtoToEntity(AnimalDTO animalDto);
 } 

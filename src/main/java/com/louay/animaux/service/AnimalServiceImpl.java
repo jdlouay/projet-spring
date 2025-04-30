@@ -1,13 +1,18 @@
 package com.louay.animaux.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+
 import com.louay.animaux.entities.Animal;
 import com.louay.animaux.entities.Groupe;
 import com.louay.animaux.repos.AnimalRepository;
+import com.louay.animaux.dto.AnimalDTO;
 
 @Service
 public class AnimalServiceImpl implements AnimalService {
@@ -15,14 +20,17 @@ public class AnimalServiceImpl implements AnimalService {
     @Autowired
     AnimalRepository animalRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @Override
-    public Animal saveAnimal(Animal a) {
-        return animalRepository.save(a);
+    public AnimalDTO saveAnimal(Animal a) {
+        return convertEntityToDto(animalRepository.save(a));
     }
 
     @Override
-    public Animal updateAnimal(Animal a) {
-        return animalRepository.save(a);
+    public AnimalDTO updateAnimal(Animal a) {
+        return convertEntityToDto(animalRepository.save(a));
     }
 
     @Override
@@ -36,13 +44,17 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public Animal getAnimal(Long id) {
-        return animalRepository.findById(id).get();
+    public AnimalDTO getAnimal(Long id) {
+        return animalRepository.findById(id)
+                .map(this::convertEntityToDto)
+                .orElseThrow(() -> new RuntimeException("Animal non trouvé avec l'id: " + id));
     }
 
     @Override
-    public List<Animal> getAllAnimaux() {
-        return animalRepository.findAll();
+    public List<AnimalDTO> getAllAnimaux() {
+        return animalRepository.findAll().stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -83,5 +95,19 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     public List<Animal> trierAnimauxEspecePoids() {
         return animalRepository.trierAnimauxEspecePoids();
+    }
+
+    @Override
+    public AnimalDTO convertEntityToDto(Animal animal) {
+        AnimalDTO animalDTO = modelMapper.map(animal, AnimalDTO.class);
+        if (animal.getGroupe() != null) {
+            animalDTO.setNomGroupe(animal.getGroupe().getNomGroupe());
+        }
+        return animalDTO;
+    }
+
+    @Override
+    public Animal convertDtoToEntity(AnimalDTO animalDto) {
+        return modelMapper.map(animalDto, Animal.class);
     }
 } 

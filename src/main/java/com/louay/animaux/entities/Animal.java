@@ -16,11 +16,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.PastOrPresent;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
 @Entity
 public class Animal {
     @Id
@@ -30,6 +25,10 @@ public class Animal {
     @NotNull
     @Size(min = 3, max = 50)
     private String nomAnimal;
+
+    @NotNull
+    @Size(min = 3, max = 50)
+    private String especeAnimal;
 
     @NotNull
     @Min(value = 0)
@@ -44,15 +43,68 @@ public class Animal {
     @ManyToOne
     private Groupe groupe;
 
-    public Animal(String nomAnimal, Double poidsAnimal, Date dateNaissance) {
+    public Animal() {
+    }
+
+    public Animal(String nomAnimal, String especeAnimal, Double poidsAnimal, Date dateNaissance) {
         this.nomAnimal = nomAnimal;
+        this.especeAnimal = especeAnimal;
         this.poidsAnimal = poidsAnimal;
         this.dateNaissance = dateNaissance;
+    }
+
+    public Long getCodeAnimal() {
+        return codeAnimal;
+    }
+
+    public void setCodeAnimal(Long codeAnimal) {
+        this.codeAnimal = codeAnimal;
+    }
+
+    public String getNomAnimal() {
+        return nomAnimal;
+    }
+
+    public void setNomAnimal(String nomAnimal) {
+        this.nomAnimal = nomAnimal;
+    }
+
+    public String getEspeceAnimal() {
+        return especeAnimal;
+    }
+
+    public void setEspeceAnimal(String especeAnimal) {
+        this.especeAnimal = especeAnimal;
+    }
+
+    public Double getPoidsAnimal() {
+        return poidsAnimal;
+    }
+
+    public void setPoidsAnimal(Double poidsAnimal) {
+        this.poidsAnimal = poidsAnimal;
+    }
+
+    public Date getDateNaissance() {
+        return dateNaissance;
+    }
+
+    public void setDateNaissance(Date dateNaissance) {
+        this.dateNaissance = dateNaissance;
+    }
+
+    public Groupe getGroupe() {
+        return groupe;
+    }
+
+    public void setGroupe(Groupe groupe) {
+        this.groupe = groupe;
     }
 
     @Override
     public String toString() {
         return "Animal [codeAnimal=" + codeAnimal + ", nomAnimal=" + nomAnimal +
-                ", poidsAnimal=" + poidsAnimal + ", dateNaissance=" + dateNaissance + "]";
+                ", especeAnimal=" + especeAnimal + ", poidsAnimal=" + poidsAnimal + 
+                ", dateNaissance=" + dateNaissance + "]";
     }
 }

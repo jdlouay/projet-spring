@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Erreur</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="card">
+            <div class="card-header bg-danger text-white">
+              <h3>Erreur</h3>
+            </div>
+            <div class="card-body">
+              <p th:text="${message}">Une erreur est survenue.</p>
+              <a href="/" class="btn btn-primary">Retour à l'accueil</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
