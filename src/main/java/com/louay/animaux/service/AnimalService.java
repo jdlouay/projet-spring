@@ -15,13 +15,11 @@ public interface AnimalService {
     List<AnimalDTO> getAllAnimaux();
     Page<Animal> getAllAnimauxParPage(int page, int size);
     
-    List<Animal> findByEspeceAnimal(String espece);
-    List<Animal> findByEspeceAnimalContains(String espece);
     List<Animal> findByEspecePoids(String espece, Double poids);
     List<Animal> findByGroupe(Groupe groupe);
     List<Animal> findByGroupeCodeGroupe(Long id);
-    List<Animal> findByOrderByEspeceAnimalAsc();
     List<Animal> trierAnimauxEspecePoids();
+    List<Animal> findByNomAnimalContains(String nom);
 
     // Méthodes de conversion
     AnimalDTO convertEntityToDto(Animal animal);

@@ -5,16 +5,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor
 @Entity
 public class Role {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long role_id;
     private String role;
 } 

@@ -8,6 +8,7 @@ import com.louay.animaux.entities.Role;
 import com.louay.animaux.entities.User;
 import com.louay.animaux.repos.RoleRepository;
 import com.louay.animaux.repos.UserRepository;
+import java.util.List;
 
 @Transactional
 @Service
@@ -53,5 +54,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserByUsername(String username) {
         return userRep.findByUsername(username);
+    }
+    
+    @Override
+    public List<User> findAllUsers() {
+        return userRep.findAll();
     }
 } 

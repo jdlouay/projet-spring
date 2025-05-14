@@ -23,8 +23,15 @@ public class AnimalServiceImpl implements AnimalService {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    GroupeService groupeService;
+
     @Override
     public AnimalDTO saveAnimal(Animal a) {
+        System.out.println("Animal avant save: " + a);
+        if (a.getGroupe() != null) {
+            System.out.println("Groupe associé: " + a.getGroupe().getCodeGroupe());
+        }
         return convertEntityToDto(animalRepository.save(a));
     }
 
@@ -63,16 +70,6 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public List<Animal> findByEspeceAnimal(String espece) {
-        return animalRepository.findByEspeceAnimal(espece);
-    }
-
-    @Override
-    public List<Animal> findByEspeceAnimalContains(String espece) {
-        return animalRepository.findByEspeceAnimalContains(espece);
-    }
-
-    @Override
     public List<Animal> findByEspecePoids(String espece, Double poids) {
         return animalRepository.findByEspecePoids(espece, poids);
     }
@@ -88,26 +85,48 @@ public class AnimalServiceImpl implements AnimalService {
     }
 
     @Override
-    public List<Animal> findByOrderByEspeceAnimalAsc() {
-        return animalRepository.findByOrderByEspeceAnimalAsc();
-    }
-
-    @Override
     public List<Animal> trierAnimauxEspecePoids() {
         return animalRepository.trierAnimauxEspecePoids();
     }
 
     @Override
-    public AnimalDTO convertEntityToDto(Animal animal) {
-        AnimalDTO animalDTO = modelMapper.map(animal, AnimalDTO.class);
-        if (animal.getGroupe() != null) {
-            animalDTO.setNomGroupe(animal.getGroupe().getNomGroupe());
-        }
-        return animalDTO;
+    public List<Animal> findByNomAnimalContains(String nom) {
+        return animalRepository.findByNomAnimalContains(nom);
     }
 
     @Override
     public Animal convertDtoToEntity(AnimalDTO animalDto) {
-        return modelMapper.map(animalDto, Animal.class);
+        Animal animal = new Animal();
+        animal.setCodeAnimal(animalDto.getCodeAnimal());
+        animal.setNomAnimal(animalDto.getNomAnimal());
+        animal.setEspeceAnimal(animalDto.getEspeceAnimal());
+        animal.setPoidsAnimal(animalDto.getPoidsAnimal());
+        animal.setDateNaissance(animalDto.getDateNaissance());
+        if (animalDto.getCodeGroupe() != null) {
+            Groupe groupe = groupeService.getGroupe(animalDto.getCodeGroupe());
+            System.out.println("Groupe trouvé pour codeGroupe=" + animalDto.getCodeGroupe() + " : " + (groupe != null ? groupe.getNomGroupe() : "Aucun"));
+            animal.setGroupe(groupe);
+        } else {
+            animal.setGroupe(null);
+        }
+        return animal;
+    }
+
+    @Override
+    public AnimalDTO convertEntityToDto(Animal animal) {
+        AnimalDTO dto = new AnimalDTO();
+        dto.setCodeAnimal(animal.getCodeAnimal());
+        dto.setNomAnimal(animal.getNomAnimal());
+        dto.setEspeceAnimal(animal.getEspeceAnimal());
+        dto.setPoidsAnimal(animal.getPoidsAnimal());
+        dto.setDateNaissance(animal.getDateNaissance());
+        if (animal.getGroupe() != null) {
+            dto.setCodeGroupe(animal.getGroupe().getCodeGroupe());
+            dto.setNomGroupe(animal.getGroupe().getNomGroupe());
+        } else {
+            dto.setCodeGroupe(null);
+            dto.setNomGroupe(null);
+        }
+        return dto;
     }
 } 

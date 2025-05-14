@@ -16,15 +16,22 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
 
     List<Animal> findByNomAnimalContains(String nom);
 
+    List<Animal> findByEspeceAnimal(String espece);
+
+    List<Animal> findByEspeceAnimalContains(String espece);
+
     @Query("select a from Animal a where a.nomAnimal like %:nom and a.poidsAnimal > :poids")
     List<Animal> findByEspecePoids(@Param("nom") String nom, @Param("poids") Double poids);
 
     @Query("select a from Animal a where a.groupe = ?1")
     List<Animal> findByGroupe(Groupe groupe);
 
-    List<Animal> findByGroupeCodeGroupe(Long id);
+    @Query("select a from Animal a where a.groupe.codeGroupe = :idGroupe")
+    List<Animal> findByGroupeCodeGroupe(@Param("idGroupe") Long idGroupe);
 
     List<Animal> findByOrderByNomAnimalAsc();
+
+    List<Animal> findByOrderByEspeceAnimalAsc();
 
     @Query("select a from Animal a order by a.nomAnimal ASC, a.poidsAnimal DESC")
     List<Animal> trierAnimauxEspecePoids();
